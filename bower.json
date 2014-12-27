@@ -5,7 +5,9 @@
     "Mike Dillon <mike@embody.org>"
   ],
   "description": "Angular directive for creating inline SVG stars",
-  "main": "svg-star.js",
+  "main": [
+    "dist/angular-svg-star-directive.js"
+  ],
   "keywords": [
     "star",
     "svg"

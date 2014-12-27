@@ -1,0 +1,22 @@
+default:
+- 'build'
+
+build:
+- 'jshint'
+- 'concat:dist'
+- 'ngAnnotate'
+- 'uglify'
+- 'test-unit'
+- 'concat:license'
+
+test-unit:
+- 'karma:unit'
+
+dev:
+- 'connect:devserver'
+- 'open:devserver'
+- 'watch:source'
+
+travis:
+- 'bower:install'
+- 'test-unit'

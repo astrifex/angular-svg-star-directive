@@ -1,3 +1,7 @@
+(function() {
+
+"use strict";
+
 angular.module('md5.svg-star', []).
   directive('svgStar', function () {
     var calculatePoints = function (cx, cy, corners, spokeRatio, radius) {
@@ -42,3 +46,5 @@ angular.module('md5.svg-star', []).
 
     return { restrict: 'E', template: starTemplate };
   });
+
+}());

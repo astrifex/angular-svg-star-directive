@@ -1,0 +1,17 @@
+<!doctype html>
+<html ng-app="svgStarDemo">
+  <head>
+    <title>Angular SVG Stars</title>
+  </head>
+  <body>
+    <svg-star></svg-star>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+    <script src="../dist/angular-svg-star-directive.min.js"></script>
+    <script type="text/javascript">
+      var app = angular.module('svgStarDemo', ['md5.svg-star']);
+      app.controller('DemoController',  ['$scope', function ($scope) {
+      }]);
+    </script>
+  </body>
+</html>

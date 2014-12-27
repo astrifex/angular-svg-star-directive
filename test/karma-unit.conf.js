@@ -1,11 +1,11 @@
 module.exports = function (config) {
   config.set({
-    basePath: '',
+    basePath: '../',
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'svg-star.js',
-      '*.spec.js'
+      'dist/angular-svg-star-directive.js',
+      'test/unit/*.js'
     ],
 
     reporters: ['progress'],
@@ -15,12 +15,12 @@ module.exports = function (config) {
 
     logLevel: config.LOG_INFO,
 
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
     frameworks: ['jasmine'],
 
     captureTimeout: 60000,
 
-    autoWatch: true,
-    singleRun: false
+    autoWatch: false,
+    singleRun: true
   });
 };

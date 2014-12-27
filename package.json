@@ -2,9 +2,9 @@
   "name": "angular-svg-star-directive",
   "version": "0.0.0",
   "description": "Angular directive for creating inline SVG stars",
-  "main": "svg-star.js",
+  "main": "dist/angular-svg-star-directive",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --browsers Firefox --single-run"
+    "test": "grunt travis --verbose"
   },
   "repository": {
     "type": "git",
@@ -24,10 +24,23 @@
   },
   "homepage": "https://github.com/md5/angular-svg-star-directive",
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bower-task": "^0.4.0",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-connect": "^0.9.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-karma": "^0.9.0",
+    "grunt-ng-annotate": "^0.8.0",
+    "grunt-open": "^0.2.3",
     "jasmine-core": "^2.1.3",
     "karma": "^0.12.28",
     "karma-chrome-launcher": "^0.1.7",
     "karma-firefox-launcher": "^0.1.3",
-    "karma-jasmine": "^0.3.3"
+    "karma-jasmine": "^0.3.3",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "load-grunt-config": "^0.16.0"
   }
 }
