@@ -1,5 +1,6 @@
 bower_components/
 node_modules/
 
+/coverage
 /dist/angular-svg-star-directive.pre.js
 /dist/angular-svg-star-directive.min.no-header.js

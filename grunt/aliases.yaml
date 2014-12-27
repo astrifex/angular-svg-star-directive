@@ -9,6 +9,9 @@ build:
 - 'test-unit'
 - 'concat:license'
 
+test-coverage:
+- 'karma:unit_coverage'
+
 test-unit:
 - 'karma:unit'
 
@@ -19,4 +22,4 @@ dev:
 
 travis:
 - 'bower:install'
-- 'test-unit'
+- 'test-coverage'
