@@ -2,9 +2,30 @@
 <html ng-app="svgStarDemo">
   <head>
     <title>Angular SVG Stars</title>
+    <style>
+      .star-container {
+        height: 1em;
+      }
+
+      .star-shape {
+        fill: gold;
+        stroke: darkGoldenrod;
+      }
+
+      .rotate .star-container {
+        display: inline-block;
+        transform: rotate(180deg);
+      }
+    </style>
   </head>
   <body>
-    <svg-star></svg-star>
+    <p>
+      Have some gold stars:
+      <svg-star></svg-star>
+      <svg-star corners="6"></svg-star>
+      <svg-star spoke-ratio="0.4"></svg-star>
+      <svg-star class="rotate"></svg-star>
+    </p>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
     <script src="../dist/angular-svg-star-directive.min.js"></script>
