@@ -3,6 +3,8 @@ language: node_js
 node_js:
 - 0.10
 
+sudo: false
+
 env:
   global:
     secure: G9Ms92hCccuuaNRmRH00USl4Lmc7G0w1w3c+s7f6f11JcIuL27aCynuBTSxiTqFId3XpgjO6jhr0fvbgRZ04yXlqZsWBIhwWypuO4guh2uP0DLgCuUWI8O1NmLEMOYA0hiDBJ8VR1x2WQ+BEsbuPB25Y7FUVdZoMNpF/0vficYI=
