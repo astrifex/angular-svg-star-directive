@@ -14,5 +14,5 @@ cache:
     - bower_components
     - node_modules
 
-after_install:
+before_script:
 - node_modules/.bin/bower install --config.interactive=false
