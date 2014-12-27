@@ -12,6 +12,7 @@ describe('svgStar', function () {
   it('should work as an element', function () {
     var elt = angular.element('<svg-star></svg-star>');
     $compile(elt)($rootScope);
+    $rootScope.$digest();
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
