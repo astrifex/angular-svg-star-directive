@@ -22,8 +22,8 @@ angular.module('md5.svg-star', []).
         defaultSpokeRatio = 0.5;
 
     var starTemplate = function (elt, attrs) {
-      var size       = attrs['size']        || defaultSize,
-          corners    = attrs['corners']     || defaultCorners,
+      var size       = attrs.size           || defaultSize,
+          corners    = attrs.corners        || defaultCorners,
           spokeRatio = attrs['spoke-ratio'] || defaultSpokeRatio,
           radius     = size / 2;
 

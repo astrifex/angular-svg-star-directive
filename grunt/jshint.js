@@ -6,7 +6,7 @@ module.exports = function (grunt, options) {
       node: true
     },
     source: {
-      src: ['src/directives/*.js', 'src/services/*.js']
+      src: ['svg-star.js', 'src/directives/*.js', 'src/services/*.js']
     },
     tests: {
       src: ['test/unit/*.js', 'test/e2e/*.js']
