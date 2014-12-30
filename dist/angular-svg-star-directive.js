@@ -53,7 +53,9 @@ angular.module('md5.svg-star', []).
         $scope.points = pointsStr;
       };
 
-      $scope.$watchGroup(['size', 'corners', 'spokeRatio'], updatePoints);
+      // XXX: Requires Angular 1.3
+      //$scope.$watchGroup(['size', 'corners', 'spokeRatio'], updatePoints);
+      $scope.$watch('size+","+corners+","+spokeRatio', updatePoints);
     };
 
     return {
