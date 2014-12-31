@@ -17,8 +17,12 @@ angular.module('md5.svg-star', []).
 
       var points = [];
 
-      for (var angle = angleStart, index = 0; index < steps; angle += angleStep, index++) {
-        var r = index % 2 === 0 ? radius : innerRadius;
+      for (var index = 0; index < steps; index++) {
+        var outer = index % 2 === 0,
+            r = outer ? radius : innerRadius,
+            sk = outer ? 0 : skew ? +skew : 0,
+            angle = angleStart + (index + sk) * angleStep;
+
         points.push([cx + r * Math.cos(angle), cy + r * Math.sin(angle)]);
       }
 
