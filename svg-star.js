@@ -6,15 +6,14 @@ angular.module('md5.svg-star', []).
       '</svg>';
 
     var calculatePoints = function (cx, cy, corners, spokeRatio, radius) {
-      var angleStart = -0.5 * Math.PI,
-          angleEnd = 1.5 * Math.PI,
-          angleStep = Math.PI / corners,
+      var steps = 2 * corners,
+          angleStart = -0.5 * Math.PI,
+          angleStep = (2 * Math.PI) / steps,
           innerRadius = radius * spokeRatio;
 
       var points = [];
 
-      // XXX: does the angle < angleEnd bounds check need an epsilon?
-      for (var angle = angleStart, index = 0; angle < angleEnd; angle += angleStep, index++) {
+      for (var angle = angleStart, index = 0; index < steps; angle += angleStep, index++) {
         var r = index % 2 === 0 ? radius : innerRadius;
         points.push([cx + r * Math.cos(angle), cy + r * Math.sin(angle)]);
       }
