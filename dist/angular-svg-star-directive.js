@@ -9,7 +9,7 @@ angular.module('md5.svg-star', []).
       '<polygon points="{{points}}" fill="{{fill}}" stroke="{{stroke}}" class="star-shape"></polygon>' +
       '</svg>';
 
-    var calculatePoints = function (cx, cy, corners, spokeRatio, radius) {
+    var calculatePoints = function (cx, cy, corners, spokeRatio, radius, skew, randomness) {
       var steps = 2 * corners,
           angleStart = -0.5 * Math.PI,
           angleStep = (2 * Math.PI) / steps,
@@ -41,7 +41,7 @@ angular.module('md5.svg-star', []).
       var updatePoints = function () {
         var radius = $scope.size / 2;
 
-        var points = calculatePoints(radius, radius, $scope.corners, $scope.spokeRatio, radius);
+        var points = calculatePoints(radius, radius, $scope.corners, $scope.spokeRatio, radius, $scope.skew, $scope.randomness);
 
         var pointsStr = '';
         for (var i = 0; i < points.length; i++) {
@@ -53,8 +53,8 @@ angular.module('md5.svg-star', []).
       };
 
       // XXX: Requires Angular 1.3
-      //$scope.$watchGroup(['size', 'corners', 'spokeRatio'], updatePoints);
-      $scope.$watch('size+","+corners+","+spokeRatio', updatePoints);
+      //$scope.$watchGroup(['size', 'corners', 'spokeRatio', 'skew', 'randomness'], updatePoints);
+      $scope.$watch('size+","+corners+","+spokeRatio+","+skew+","+randomness', updatePoints);
     };
 
     return {
@@ -63,6 +63,8 @@ angular.module('md5.svg-star', []).
         size: '@',
         corners: '@',
         spokeRatio: '@',
+        skew: '@',
+        randomness: '@',
         fill: '@',
         stroke: '@'
       },
