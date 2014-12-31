@@ -21,8 +21,8 @@ describe('svgStar', function () {
     var star = svg.find('polygon');
     expect(star.length).toBe(1);
 
-    var points = star.eq(0).attr('points');
+    var points = star.eq(0).prop('points');
     expect(points).not.toBeNull();
-    expect(points.split(/ /).length).toBe(10);
+    expect(points.numberOfItems).toBe(10);
   });
 });
