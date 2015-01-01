@@ -16,7 +16,7 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('0 0 20 20');
+    expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
 
     var star = svg.find('polygon');
     expect(star.length).toBe(1);
