@@ -5,7 +5,7 @@
 angular.module('astrifex.svg-star', []).
   directive('svgStar', function () {
     var starTemplate =
-      '<svg version="1.1" ng-attr-view_box="{{-0.5 * size}} {{-0.5 * size}} {{size}} {{size}}" preserveAspectRatio="xMidYMid meet" class="star-container">' +
+      '<svg version="1.1" ng-attr-view_box="{{viewBox}}" preserveAspectRatio="xMidYMid meet" class="star-container">' +
       '<path ng-attr-d="{{path}}" ng-attr-fill="{{fill}}" ng-attr-stroke="{{stroke}}" class="star-shape"></path>' +
       '</svg>';
 
@@ -57,7 +57,7 @@ angular.module('astrifex.svg-star', []).
     };
 
     var linkTemplate = function ($scope, elt, attrs) {
-      var updatePoints = function () {
+      $scope.$watchGroup(['size', 'corners', 'spokeRatio', 'skew', 'randomness'], function updateStar() {
         var radius = $scope.size / 2;
 
         var path = calculatePath($scope.corners, $scope.spokeRatio, radius, $scope.skew, $scope.randomness);
@@ -72,10 +72,11 @@ angular.module('astrifex.svg-star', []).
           }
         }
 
-        $scope.path = pathStr;
-      };
+        var viewBox = '-' + radius + ' -' + radius + ' ' + $scope.size + ' ' + $scope.size;
 
-      $scope.$watchGroup(['size', 'corners', 'spokeRatio', 'skew', 'randomness'], updatePoints);
+        $scope.viewBox = viewBox;
+        $scope.path = pathStr;
+      });
     };
 
     return {
