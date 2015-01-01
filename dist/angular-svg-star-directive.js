@@ -5,8 +5,8 @@
 angular.module('md5.svg-star', []).
   directive('svgStar', function () {
     var starTemplate =
-      '<svg version="1.1" viewBox="{{-0.5 * size}} {{-0.5 * size}} {{size}} {{size}}" preserveAspectRatio="xMidYMid meet" class="star-container">' +
-      '<polygon points="{{points}}" fill="{{fill}}" stroke="{{stroke}}" class="star-shape"></polygon>' +
+      '<svg version="1.1" ng-attr-view_box="{{-0.5 * size}} {{-0.5 * size}} {{size}} {{size}}" preserveAspectRatio="xMidYMid meet" class="star-container">' +
+      '<polygon ng-attr-points="{{points}}" ng-attr-fill="{{fill}}" ng-attr-stroke="{{stroke}}" class="star-shape"></polygon>' +
       '</svg>';
 
     var calculatePoints = function (corners, spokeRatio, radius, skew, randomness) {
