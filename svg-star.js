@@ -2,10 +2,10 @@ angular.module('md5.svg-star', []).
   directive('svgStar', function () {
     var starTemplate =
       '<svg version="1.1" ng-attr-view_box="{{-0.5 * size}} {{-0.5 * size}} {{size}} {{size}}" preserveAspectRatio="xMidYMid meet" class="star-container">' +
-      '<polygon ng-attr-points="{{points}}" ng-attr-fill="{{fill}}" ng-attr-stroke="{{stroke}}" class="star-shape"></polygon>' +
+      '<path ng-attr-d="{{path}}" ng-attr-fill="{{fill}}" ng-attr-stroke="{{stroke}}" class="star-shape"></path>' +
       '</svg>';
 
-    var calculatePoints = function (corners, spokeRatio, radius, skew, randomness) {
+    var calculatePath = function (corners, spokeRatio, radius, skew, randomness) {
       var steps = 2 * corners,
           angleStart = -0.5 * Math.PI,
           angleStep = (2 * Math.PI) / steps,
@@ -19,7 +19,7 @@ angular.module('md5.svg-star', []).
         rng = new Math.seedrandom(randomSeed);
       }
 
-      var points = [];
+      var path = ['M'];
 
       for (var index = 0; index < steps; index++) {
         var outer = index % 2 === 0,
@@ -32,10 +32,12 @@ angular.module('md5.svg-star', []).
           theta += randomness * ((rng() * 2 * angleStep) - angleStep);
         }
 
-        points.push([r * Math.cos(theta), r * Math.sin(theta)]);
+        path.push([r * Math.cos(theta), r * Math.sin(theta)]);
       }
 
-      return points;
+      path.push('z');
+
+      return path;
     };
 
     var defaultSize = 20,
@@ -54,15 +56,19 @@ angular.module('md5.svg-star', []).
       var updatePoints = function () {
         var radius = $scope.size / 2;
 
-        var points = calculatePoints($scope.corners, $scope.spokeRatio, radius, $scope.skew, $scope.randomness);
+        var path = calculatePath($scope.corners, $scope.spokeRatio, radius, $scope.skew, $scope.randomness);
 
-        var pointsStr = '';
-        for (var i = 0; i < points.length; i++) {
-          if (pointsStr) pointsStr += ' ';
-          pointsStr += points[i][0] + ',' + points[i][1];
+        var pathStr = '';
+        for (var i = 0; i < path.length; i++) {
+          if (pathStr) pathStr += ' ';
+          if (Array.isArray(path[i])) {
+            pathStr += path[i][0] + ' ' + path[i][1];
+          } else {
+            pathStr += path[i];
+          }
         }
 
-        $scope.points = pointsStr;
+        $scope.path = pathStr;
       };
 
       $scope.$watchGroup(['size', 'corners', 'spokeRatio', 'skew', 'randomness'], updatePoints);

@@ -18,12 +18,12 @@ describe('svgStar', function () {
     expect(svg.length).toBe(1);
     expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
 
-    var star = svg.find('polygon');
+    var star = svg.find('path');
     expect(star.length).toBe(1);
 
-    var points = star.eq(0).prop('points');
-    expect(points).not.toBeNull();
-    expect(points.numberOfItems).toBe(10);
+    var path = star.eq(0).prop('pathSegList');
+    expect(path).not.toBeNull();
+    expect(path.numberOfItems).toBe(11);
   });
 
   it('should do something random with randomness set', function () {
@@ -35,11 +35,11 @@ describe('svgStar', function () {
     expect(svg.length).toBe(1);
     expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
 
-    var star = svg.find('polygon');
+    var star = svg.find('path');
     expect(star.length).toBe(1);
 
-    var points = star.eq(0).prop('points');
-    expect(points).not.toBeNull();
-    expect(points.numberOfItems).toBe(10);
+    var path = star.eq(0).prop('pathSegList');
+    expect(path).not.toBeNull();
+    expect(path.numberOfItems).toBe(11);
   });
 });
