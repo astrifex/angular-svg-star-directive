@@ -15,15 +15,28 @@ angular.module('md5.svg-star', []).
           angleStep = (2 * Math.PI) / steps,
           innerRadius = radius * spokeRatio;
 
+      skew = skew ? +skew : 0;
+
+      var randomSeed, rng;
+      if (randomness) {
+        randomSeed = Math.random();
+        rng = new Math.seedrandom(randomSeed);
+      }
+
       var points = [];
 
       for (var index = 0; index < steps; index++) {
         var outer = index % 2 === 0,
             r = outer ? radius : innerRadius,
-            sk = outer ? 0 : skew ? +skew : 0,
-            angle = angleStart + (index + sk) * angleStep;
+            sk = outer ? 0 : skew,
+            theta = angleStart + (index + sk) * angleStep;
 
-        points.push([r * Math.cos(angle), r * Math.sin(angle)]);
+        if (rng) {
+          r += randomness * ((rng() * 2 * r) - r);
+          theta += randomness * ((rng() * 2 * angleStep) - angleStep);
+        }
+
+        points.push([r * Math.cos(theta), r * Math.sin(theta)]);
       }
 
       return points;
