@@ -1,7 +1,7 @@
 /**!
  * The MIT License
  *
- * Copyright (c) 2014 the angular-svg-star-directive Team, http://md5.github.io/angular-svg-star-directive
+ * Copyright (c) 2014 the angular-svg-star-directive Team, http://astrifex.github.io/angular-svg-star-directive
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  *
  * angular-svg-star-directive
- * https://github.com/md5/angular-svg-star-directive
+ * https://github.com/astrifex/angular-svg-star-directive
  *
- * @authors https://github.com/md5/angular-svg-star-directive/graphs/contributors
+ * @authors https://github.com/astrifex/angular-svg-star-directive/graphs/contributors
  */

@@ -1,4 +1,4 @@
-angular.module('md5.svg-star', []).
+angular.module('astrifex.svg-star', []).
   directive('svgStar', function () {
     var starTemplate =
       '<svg version="1.1" ng-attr-view_box="{{-0.5 * size}} {{-0.5 * size}} {{size}} {{size}}" preserveAspectRatio="xMidYMid meet" class="star-container">' +

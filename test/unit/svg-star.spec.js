@@ -2,7 +2,7 @@ describe('svgStar', function () {
   var $compile,
       $rootScope;
 
-  beforeEach(module('md5.svg-star'));
+  beforeEach(module('astrifex.svg-star'));
 
   beforeEach(inject(function (_$compile_, _$rootScope_) {
     $compile = _$compile_;

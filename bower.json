@@ -13,7 +13,7 @@
     "svg"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/md5/angular-svg-star-directive",
+  "homepage": "https://github.com/astrifex/angular-svg-star-directive",
   "ignore": [
     "**/.*",
     "node_modules",
