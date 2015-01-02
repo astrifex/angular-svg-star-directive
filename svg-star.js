@@ -8,8 +8,19 @@ angular.module('astrifex.svg-star', []).
     var calculatePath = function (corners, spokeRatio, radius, skew, randomness) {
       var steps = 2 * corners,
           angleStart = -0.5 * Math.PI,
-          angleStep = (2 * Math.PI) / steps,
-          innerRadius = radius * spokeRatio;
+          angleStep = (2 * Math.PI) / steps;
+
+      var outerRadius, innerRadius;
+      if (Math.abs(spokeRatio) < 1) {
+        outerRadius = radius;
+        innerRadius = radius * spokeRatio;
+      } else if (spokeRatio > 0) {
+        outerRadius = radius / spokeRatio;
+        innerRadius = radius;
+      } else {
+        outerRadius = radius / -spokeRatio;
+        innerRadius = -radius;
+      }
 
       skew = skew ? +skew : 0;
 
@@ -23,7 +34,7 @@ angular.module('astrifex.svg-star', []).
 
       for (var index = 0; index < steps; index++) {
         var outer = index % 2 === 0,
-            r = outer ? radius : innerRadius,
+            r = outer ? outerRadius : innerRadius,
             sk = outer ? 0 : skew,
             theta = angleStart + (index + sk) * angleStep;
 
