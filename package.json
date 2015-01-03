@@ -23,6 +23,8 @@
     "url": "https://github.com/astrifex/angular-svg-star-directive/issues"
   },
   "homepage": "https://github.com/astrifex/angular-svg-star-directive",
+  "dependencies": {
+  },
   "devDependencies": {
     "bower": "^1.3.12",
     "grunt": "^0.4.5",
