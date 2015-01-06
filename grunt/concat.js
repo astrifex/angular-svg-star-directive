@@ -8,7 +8,7 @@ module.exports = function (grunt, options) {
         footer: '\n}());'
       },
       src: [
-        'svg-star.js'
+        'src/svg-star.js'
       ],
       dest: 'dist/angular-svg-star-directive.pre.js'
     },

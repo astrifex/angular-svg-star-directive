@@ -6,10 +6,10 @@ module.exports = function (grunt, options) {
       node: true
     },
     source: {
-      src: ['svg-star.js', 'src/directives/*.js', 'src/services/*.js']
+      src: ['src/**/*.js']
     },
     tests: {
-      src: ['test/unit/*.js', 'test/e2e/*.js']
+      src: ['test/**/*.js']
     },
     grunt: {
       src: ['Gruntfile.js', 'grunt/**/*.js']

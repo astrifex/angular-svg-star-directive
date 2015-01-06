@@ -6,7 +6,7 @@ module.exports = function (grunt, options) {
             livereload: 7777
         },
         source: {
-            files: ['svg-star.js', 'src/**/*.js', 'test/unit/**.js', 'test/e2e/**.js'],
+            files: ['src/**/*.js', 'test/**.js'],
             tasks: [
                 'jshint',
                 'concat:dist',
