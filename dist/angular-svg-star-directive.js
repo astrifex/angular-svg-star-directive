@@ -75,7 +75,7 @@ angular.module('astrifex.svg-star', []).
       }
 
       function getViewBox() {
-        function step(previousValue, currentValue, index, array) {
+        function step(previousValue, currentValue) {
           if (currentValue instanceof Array) {
             previousValue[0] = Math.min(previousValue[0], currentValue[0]);
             previousValue[1] = Math.min(previousValue[1], currentValue[1]);
@@ -86,13 +86,13 @@ angular.module('astrifex.svg-star', []).
         }
 
         // Calculate bounds as (xmin,ymin,xmax,ymax)
-        var bounds = this.getPath().reduce(step, [-radius, -radius, radius, radius]);
+        var bounds = this.getPath().reduce(step, [0, 0, 0, 0]);
 
-        // Convert bounds to viewBox
-        bounds[2] = bounds[2] - bounds[0];
-        bounds[3] = bounds[3] - bounds[1];
+        // Calculate half-side of the viewBox (add fudge-factor of 1 for default stroke-width)
+        var halfSide = 1 + Math.max(-bounds[0], -bounds[1], bounds[2], bounds[3], radius);
 
-        return bounds;
+        // Calculate the viewBox
+        return [-halfSide,-halfSide,2*halfSide,2*halfSide];
       }
 
       this.getPath = getPath;

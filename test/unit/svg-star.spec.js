@@ -16,7 +16,7 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
+    expect(svg.eq(0).attr('viewBox')).toBe('-11 -11 22 22');
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
@@ -33,7 +33,7 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
+    expect(svg.eq(0).attr('viewBox')).toBe('-11 -11 22 22');
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
@@ -50,7 +50,7 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('-50 -50 100 100');
+    expect(svg.eq(0).attr('viewBox')).toBe('-51 -51 102 102');
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
@@ -69,10 +69,10 @@ describe('svgStar', function () {
     expect(svg.length).toBe(1);
     var viewBox = svg.eq(0).attr('viewBox').split(' ');
     expect(viewBox.length).toBe(4);
-    expect(viewBox[0]).not.toBeGreaterThan(-10);
-    expect(viewBox[1]).not.toBeGreaterThan(-10);
-    expect(viewBox[2]).not.toBeLessThan(20);
-    expect(viewBox[3]).not.toBeLessThan(20);
+    expect(viewBox[0]).not.toBeGreaterThan(-11);
+    expect(viewBox[1]).not.toBeGreaterThan(-11);
+    expect(viewBox[2]).not.toBeLessThan(22);
+    expect(viewBox[3]).not.toBeLessThan(22);
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
@@ -91,7 +91,7 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
+    expect(svg.eq(0).attr('viewBox')).toBe('-11 -11 22 22');
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
@@ -110,7 +110,7 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
+    expect(svg.eq(0).attr('viewBox')).toBe('-11 -11 22 22');
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
@@ -128,7 +128,7 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
+    expect(svg.eq(0).attr('viewBox')).toBe('-11 -11 22 22');
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
