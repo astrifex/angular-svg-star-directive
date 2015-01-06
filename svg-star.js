@@ -5,86 +5,79 @@ angular.module('astrifex.svg-star', []).
       '<path ng-attr-d="{{path}}" ng-attr-fill="{{fill}}" ng-attr-stroke="{{stroke}}" class="star-shape"></path>' +
       '</svg>';
 
-    var calculatePath = function (corners, spokeRatio, radius, skew, randomness) {
-      var steps = 2 * corners,
-          angleStart = -0.5 * Math.PI,
-          angleStep = (2 * Math.PI) / steps;
+    function Star(options) {
+      if (!(this instanceof Star)) return new Star(options);
 
-      var outerRadius, innerRadius;
-      if (Math.abs(spokeRatio) < 1) {
-        outerRadius = radius;
-        innerRadius = radius * spokeRatio;
-      } else if (spokeRatio > 0) {
-        outerRadius = radius / spokeRatio;
-        innerRadius = radius;
-      } else {
-        outerRadius = radius / -spokeRatio;
-        innerRadius = -radius;
+      var corners, spokeRatio, size, radius, skew, randomness;
+      handleOptions();
+
+      function handleOptions() {
+        corners = options.corners;
+        spokeRatio = options.spokeRatio;
+        size = options.size;
+        skew = options.skew;
+        randomness = options.randomness;
+
+        radius = size / 2;
       }
 
-      skew = skew ? +skew : 0;
+      function getPath() {
+        var steps = 2 * corners,
+            angleStart = -0.5 * Math.PI,
+            angleStep = (2 * Math.PI) / steps;
 
-      var randomSeed, rng;
-      if (randomness) {
-        randomSeed = Math.random();
-        rng = new Math.seedrandom(randomSeed);
-      }
-
-      var path = ['M'];
-
-      for (var index = 0; index < steps; index++) {
-        var outer = index % 2 === 0,
-            r = outer ? outerRadius : innerRadius,
-            sk = outer ? 0 : skew,
-            theta = angleStart + (index + sk) * angleStep;
-
-        if (rng) {
-          r += randomness * ((rng() * 2 * r) - r);
-          theta += randomness * ((rng() * 2 * angleStep) - angleStep);
+        var outerRadius, innerRadius;
+        if (Math.abs(spokeRatio) < 1) {
+          outerRadius = radius;
+          innerRadius = radius * spokeRatio;
+        } else if (spokeRatio > 0) {
+          outerRadius = radius / spokeRatio;
+          innerRadius = radius;
+        } else {
+          outerRadius = radius / -spokeRatio;
+          innerRadius = -radius;
         }
 
-        path.push([r * Math.cos(theta), r * Math.sin(theta)]);
+        skew = skew ? +skew : 0;
+
+        var randomSeed, rng;
+        if (randomness) {
+          randomSeed = Math.random();
+          rng = new Math.seedrandom(randomSeed);
+        }
+
+        var path = ['M'];
+
+        for (var index = 0; index < steps; index++) {
+          var outer = index % 2 === 0,
+              r = outer ? outerRadius : innerRadius,
+              sk = outer ? 0 : skew,
+              theta = angleStart + (index + sk) * angleStep;
+
+          if (rng) {
+            r += randomness * ((rng() * 2 * r) - r);
+            theta += randomness * ((rng() * 2 * angleStep) - angleStep);
+          }
+
+          path.push([r * Math.cos(theta), r * Math.sin(theta)]);
+        }
+
+        path.push('z');
+
+        return path;
       }
 
-      path.push('z');
+      function getViewBox() {
+        return [-radius, -radius, size, size];
+      }
 
-      return path;
-    };
+      this.getPath = getPath;
+      this.getViewBox = getViewBox;
+    }
 
     var defaultSize = 20,
         defaultCorners = 5,
         defaultSpokeRatio = 0.5;
-
-    var compileTemplate = function (elt, attrs) {
-      if (!attrs.size) attrs.size = defaultSize;
-      if (!attrs.corners) attrs.corners = defaultCorners;
-      if (!attrs.spokeRatio) attrs.spokeRatio = defaultSpokeRatio;
-
-      return { post: linkTemplate };
-    };
-
-    var linkTemplate = function ($scope, elt, attrs) {
-      $scope.$watchGroup(['size', 'corners', 'spokeRatio', 'skew', 'randomness'], function updateStar() {
-        var radius = $scope.size / 2;
-
-        var path = calculatePath($scope.corners, $scope.spokeRatio, radius, $scope.skew, $scope.randomness);
-
-        var pathStr = '';
-        for (var i = 0; i < path.length; i++) {
-          if (pathStr) pathStr += ' ';
-          if (Array.isArray(path[i])) {
-            pathStr += path[i][0] + ' ' + path[i][1];
-          } else {
-            pathStr += path[i];
-          }
-        }
-
-        var viewBox = '-' + radius + ' -' + radius + ' ' + $scope.size + ' ' + $scope.size;
-
-        $scope.viewBox = viewBox;
-        $scope.path = pathStr;
-      });
-    };
 
     return {
       restrict: 'E',
@@ -98,6 +91,25 @@ angular.module('astrifex.svg-star', []).
         stroke: '@'
       },
       template: starTemplate,
-      compile: compileTemplate
+      compile: function compileSvgStar(elt, attrs) {
+        if (!attrs.size) attrs.size = defaultSize;
+        if (!attrs.corners) attrs.corners = defaultCorners;
+        if (!attrs.spokeRatio) attrs.spokeRatio = defaultSpokeRatio;
+
+        return function linkSvgStar($scope, elt, attrs) {
+          $scope.$watchGroup(['size', 'corners', 'spokeRatio', 'skew', 'randomness'], function updateStar() {
+            var star = new Star({
+              corners: $scope.corners,
+              spokeRatio: $scope.spokeRatio,
+              size: $scope.size,
+              skew: $scope.skew,
+              randomness: $scope.randomness
+            });
+
+            $scope.viewBox = star.getViewBox().join(' ');
+            $scope.path = star.getPath().join(' ');
+          });
+        };
+      }
     };
   });
