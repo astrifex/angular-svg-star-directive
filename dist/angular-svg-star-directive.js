@@ -12,17 +12,20 @@ angular.module('astrifex.svg-star', []).
     function Star(options) {
       if (!(this instanceof Star)) return new Star(options);
 
-      var corners, spokeRatio, size, radius, skew, randomness;
+      var corners, spokeRatio, size, radius, skew, randomness, roundness;
       handleOptions();
 
       function handleOptions() {
-        corners = options.corners;
-        spokeRatio = options.spokeRatio;
-        size = options.size;
-        skew = options.skew;
-        randomness = options.randomness;
+        // numerify val without allowing NaN to creep in
+        function numberOrZero(val) { return val ? +val : 0; }
 
+        corners = Math.max(0,Math.floor(numberOrZero(options.corners)));
+        spokeRatio = numberOrZero(options.spokeRatio);
+        size = numberOrZero(options.size);
         radius = size / 2;
+        skew = numberOrZero(options.skew);
+        randomness = numberOrZero(options.randomness);
+        roundness = numberOrZero(options.roundness);
       }
 
       function getPath() {
@@ -41,8 +44,6 @@ angular.module('astrifex.svg-star', []).
           outerRadius = radius / -spokeRatio;
           innerRadius = -radius;
         }
-
-        skew = skew ? +skew : 0;
 
         var randomSeed, rng;
         if (randomness) {
@@ -72,7 +73,24 @@ angular.module('astrifex.svg-star', []).
       }
 
       function getViewBox() {
-        return [-radius, -radius, size, size];
+        function step(previousValue, currentValue, index, array) {
+          if (currentValue instanceof Array) {
+            previousValue[0] = Math.min(previousValue[0], currentValue[0]);
+            previousValue[1] = Math.min(previousValue[1], currentValue[1]);
+            previousValue[2] = Math.max(previousValue[2], currentValue[0]);
+            previousValue[3] = Math.max(previousValue[3], currentValue[1]);
+          }
+          return previousValue;
+        }
+
+        // Calculate bounds as (xmin,ymin,xmax,ymax)
+        var bounds = this.getPath().reduce(step, [-radius, -radius, radius, radius]);
+
+        // Convert bounds to viewBox
+        bounds[2] = bounds[2] - bounds[0];
+        bounds[3] = bounds[3] - bounds[1];
+
+        return bounds;
       }
 
       this.getPath = getPath;
@@ -91,6 +109,7 @@ angular.module('astrifex.svg-star', []).
         spokeRatio: '@',
         skew: '@',
         randomness: '@',
+        roundness: '@',
         fill: '@',
         stroke: '@'
       },

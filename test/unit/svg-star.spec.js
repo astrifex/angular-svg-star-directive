@@ -60,8 +60,6 @@ describe('svgStar', function () {
     expect(path.numberOfItems).toBe(11);
   });
 
-  // TODO: This should actually test that something random is happening;
-  // perhaps we need to mock out seedrandom or something
   it('should do something random with randomness set', function () {
     var elt = angular.element('<svg-star randomness="0.5"></svg-star>');
     $compile(elt)($rootScope);
@@ -69,7 +67,12 @@ describe('svgStar', function () {
 
     var svg = elt.find('svg');
     expect(svg.length).toBe(1);
-    expect(svg.eq(0).attr('viewBox')).toBe('-10 -10 20 20');
+    var viewBox = svg.eq(0).attr('viewBox').split(' ');
+    expect(viewBox.length).toBe(4);
+    expect(viewBox[0]).toBeLessThan(-10);
+    expect(viewBox[1]).toBeLessThan(-10);
+    expect(viewBox[2]).toBeGreaterThan(20);
+    expect(viewBox[3]).toBeGreaterThan(20);
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
