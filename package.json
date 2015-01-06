@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/astrifex/angular-svg-star-directive",
   "dependencies": {
+    "seedrandom": "^2.3.11"
   },
   "devDependencies": {
     "bower": "^1.3.12",
