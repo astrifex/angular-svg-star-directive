@@ -69,10 +69,10 @@ describe('svgStar', function () {
     expect(svg.length).toBe(1);
     var viewBox = svg.eq(0).attr('viewBox').split(' ');
     expect(viewBox.length).toBe(4);
-    expect(viewBox[0]).toBeLessThan(-10);
-    expect(viewBox[1]).toBeLessThan(-10);
-    expect(viewBox[2]).toBeGreaterThan(20);
-    expect(viewBox[3]).toBeGreaterThan(20);
+    expect(viewBox[0]).not.toBeGreaterThan(-10);
+    expect(viewBox[1]).not.toBeGreaterThan(-10);
+    expect(viewBox[2]).not.toBeLessThan(20);
+    expect(viewBox[3]).not.toBeLessThan(20);
 
     var star = svg.find('path');
     expect(star.length).toBe(1);
