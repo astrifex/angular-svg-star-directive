@@ -25,6 +25,8 @@ angular.module('astrifex.svg-star', []).
       }
 
       function getPath() {
+        if (corners <= 0) return [];
+
         var steps = 2 * corners,
             angleStart = -0.5 * Math.PI,
             angleStep = (2 * Math.PI) / steps;
