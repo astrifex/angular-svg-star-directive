@@ -47,50 +47,54 @@ angular.module('astrifex.svg-star', []).
           outerRadius = innerRadius / spokeRatio;
         }
 
-        var path = ['M'];
+        var basePath = ['M'];
         var angleStart = -0.5 * Math.PI;
         for (var index = 0; index < corners; index++) {
           // Point on outer ring
-          path.push([outerRadius, angleStart + angleStep * (2 * index)]);
+          basePath.push([outerRadius, angleStart + angleStep * (2 * index)]);
           // Point on inner ring
-          path.push([innerRadius, angleStart + angleStep * ((2 * index + 1) + skew)]);
+          basePath.push([innerRadius, angleStart + angleStep * ((2 * index + 1) + skew)]);
         }
-        path.push('z');
+        basePath.push('z');
 
-        return path;
+        return basePath;
       }
 
+      var path;
       function getPath() {
-        // Calculate the base path in polar coordinates
-        var path = calculateBasePath();
+        if (!path) {
+          // Calculate the base path in polar coordinates
+          path = calculateBasePath();
 
-        // Jitter the path if randomness is specified
-        if (randomness) {
-          var rng = new Math.seedrandom();
-          var randomBetween = function randomBetween(min, max) {
-            return rng() * (max - min) + min;
-          };
+          // Jitter the path if randomness is specified
+          if (randomness) {
+            var rng = new Math.seedrandom();
+            var randomBetween = function randomBetween(min, max) {
+              return rng() * (max - min) + min;
+            };
 
+            path = path.map(function (elem) {
+              if (elem instanceof Array) {
+                var r = elem[0], theta = elem[1];
+                elem = [
+                  r     + randomness * randomBetween(-r, r),
+                  theta + randomness * randomBetween(-angleStep, angleStep)
+                ];
+              }
+              return elem;
+            });
+          }
+
+          // Map polar coordinates to Cartesian
           path = path.map(function (elem) {
             if (elem instanceof Array) {
               var r = elem[0], theta = elem[1];
-              elem = [
-                r     + randomness * randomBetween(-r, r),
-                theta + randomness * randomBetween(-angleStep, angleStep)
-              ];
+              elem = [r * Math.cos(theta), r * Math.sin(theta)];
             }
             return elem;
           });
         }
-
-        // Map polar coordinates to Cartesian
-        return path.map(function (elem) {
-          if (elem instanceof Array) {
-            var r = elem[0], theta = elem[1];
-            elem = [r * Math.cos(theta), r * Math.sin(theta)];
-          }
-          return elem;
-        });
+        return path;
       }
 
       function getViewBox() {
