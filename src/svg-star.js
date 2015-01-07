@@ -8,66 +8,89 @@ angular.module('astrifex.svg-star', []).
     function Star(options) {
       if (!(this instanceof Star)) return new Star(options);
 
-      var corners, spokeRatio, size, radius, skew, randomness, roundness;
-      handleOptions();
+      // Settings provided by options
+      var corners, spokeRatio, size, skew, randomness, roundness;
 
-      function handleOptions() {
+      // Derived values
+      var radius, angleStep;
+
+      // Exposed methods
+      this.getPath = getPath;
+      this.getViewBox = getViewBox;
+
+      // Handle passed-in options
+      (function handleOptions() {
         // numerify val without allowing NaN to creep in
-        function numberOrZero(val) { return val ? +val : 0; }
+        function numberOrZero(val) { return +val || 0; }
 
         corners = Math.max(0,Math.floor(numberOrZero(options.corners)));
         spokeRatio = numberOrZero(options.spokeRatio);
         size = numberOrZero(options.size);
-        radius = size / 2;
         skew = numberOrZero(options.skew);
         randomness = numberOrZero(options.randomness);
         roundness = numberOrZero(options.roundness);
-      }
 
-      function getPath() {
+        radius = size / 2;
+        angleStep = Math.PI / corners;
+      })();
+
+      // Returns a path array with SVG path-ops and *polar* coordinate pairs
+      function calculateBasePath() {
         if (corners <= 0) return [];
-
-        var steps = 2 * corners,
-            angleStart = -0.5 * Math.PI,
-            angleStep = (2 * Math.PI) / steps;
 
         var outerRadius, innerRadius;
         if (Math.abs(spokeRatio) < 1) {
-          outerRadius = radius;
-          innerRadius = radius * spokeRatio;
-        } else if (spokeRatio > 0) {
-          outerRadius = radius / spokeRatio;
-          innerRadius = radius;
+          outerRadius = size / 2;
+          innerRadius = outerRadius * spokeRatio;
         } else {
-          outerRadius = radius / -spokeRatio;
-          innerRadius = -radius;
-        }
-
-        var randomSeed, rng;
-        if (randomness) {
-          randomSeed = Math.random();
-          rng = new Math.seedrandom(randomSeed);
+          innerRadius = size / (spokeRatio > 0 ? 2 : -2);
+          outerRadius = innerRadius / spokeRatio;
         }
 
         var path = ['M'];
-
-        for (var index = 0; index < steps; index++) {
-          var outer = index % 2 === 0,
-              r = outer ? outerRadius : innerRadius,
-              sk = outer ? 0 : skew,
-              theta = angleStart + (index + sk) * angleStep;
-
-          if (rng) {
-            r += randomness * ((rng() * 2 * r) - r);
-            theta += randomness * ((rng() * 2 * angleStep) - angleStep);
-          }
-
-          path.push([r * Math.cos(theta), r * Math.sin(theta)]);
+        var angleStart = -0.5 * Math.PI;
+        for (var index = 0; index < corners; index++) {
+          // Point on outer ring
+          path.push([outerRadius, angleStart + angleStep * (2 * index)]);
+          // Point on inner ring
+          path.push([innerRadius, angleStart + angleStep * ((2 * index + 1) + skew)]);
         }
-
         path.push('z');
 
         return path;
+      }
+
+      function getPath() {
+        // Calculate the base path in polar coordinates
+        var path = calculateBasePath();
+
+        // Jitter the path if randomness is specified
+        if (randomness) {
+          var rng = new Math.seedrandom();
+          var randomBetween = function randomBetween(min, max) {
+            return rng() * (max - min) + min;
+          };
+
+          path = path.map(function (elem) {
+            if (elem instanceof Array) {
+              var r = elem[0], theta = elem[1];
+              elem = [
+                r     + randomness * randomBetween(-r, r),
+                theta + randomness * randomBetween(-angleStep, angleStep)
+              ];
+            }
+            return elem;
+          });
+        }
+
+        // Map polar coordinates to Cartesian
+        return path.map(function (elem) {
+          if (elem instanceof Array) {
+            var r = elem[0], theta = elem[1];
+            elem = [r * Math.cos(theta), r * Math.sin(theta)];
+          }
+          return elem;
+        });
       }
 
       function getViewBox() {
@@ -85,14 +108,11 @@ angular.module('astrifex.svg-star', []).
         var bounds = this.getPath().reduce(step, [0, 0, 0, 0]);
 
         // Calculate half-side of the viewBox (add fudge-factor of 1 for default stroke-width)
-        var halfSide = 1 + Math.max(-bounds[0], -bounds[1], bounds[2], bounds[3], radius);
+        var halfSide = 1 + Math.max(-bounds[0], -bounds[1], bounds[2], bounds[3], size / 2);
 
         // Calculate the viewBox
         return [-halfSide,-halfSide,2*halfSide,2*halfSide];
       }
-
-      this.getPath = getPath;
-      this.getViewBox = getViewBox;
     }
 
     var defaultSize = 20,
