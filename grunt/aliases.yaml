@@ -3,7 +3,7 @@ default:
 
 build:
 - 'jshint'
-- 'concat:dist'
+- 'browserify:dist'
 - 'ngAnnotate'
 - 'uglify'
 - 'test-unit'
