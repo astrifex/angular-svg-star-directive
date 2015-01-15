@@ -7,14 +7,7 @@ module.exports = function (grunt, options) {
         },
         source: {
             files: ['src/**/*.js', 'test/**.js'],
-            tasks: [
-                'jshint',
-                'concat:dist',
-                'ngAnnotate',
-                'uglify',
-                'test-unit',
-                'concat:license'
-            ]
+            tasks: ['build']
         }
     };
 };
