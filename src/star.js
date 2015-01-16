@@ -1,4 +1,3 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 exports.Star = Star;
 
 function Star(options) {
@@ -114,55 +113,3 @@ function Star(options) {
     return [-halfSide,-halfSide,2*halfSide,2*halfSide];
   }
 }
-
-},{}],2:[function(require,module,exports){
-var Star = require('./star').Star;
-
-angular.module('astrifex.svg-star', []).
-  directive('svgStar', function () {
-    var starTemplate =
-      '<svg version="1.1" ng-attr-view_box="{{viewBox}}" preserveAspectRatio="xMidYMid meet" class="star-container">' +
-      '<path ng-attr-d="{{path}}" ng-attr-fill="{{fill}}" ng-attr-stroke="{{stroke}}" class="star-shape"></path>' +
-      '</svg>';
-
-    var defaultSize = 20,
-        defaultCorners = 5,
-        defaultSpokeRatio = 0.5;
-
-    return {
-      restrict: 'E',
-      scope: {
-        size: '@',
-        corners: '@',
-        spokeRatio: '@',
-        skew: '@',
-        randomness: '@',
-        roundness: '@',
-        fill: '@',
-        stroke: '@'
-      },
-      template: starTemplate,
-      compile: function compileSvgStar(elt, attrs) {
-        if (!attrs.size) attrs.size = defaultSize;
-        if (!attrs.corners) attrs.corners = defaultCorners;
-        if (!attrs.spokeRatio) attrs.spokeRatio = defaultSpokeRatio;
-
-        return function linkSvgStar($scope, elt, attrs) {
-          $scope.$watchGroup(['size', 'corners', 'spokeRatio', 'skew', 'randomness'], function updateStar() {
-            var star = new Star({
-              corners: $scope.corners,
-              spokeRatio: $scope.spokeRatio,
-              size: $scope.size,
-              skew: $scope.skew,
-              randomness: $scope.randomness
-            });
-
-            $scope.viewBox = star.getViewBox().join(' ');
-            $scope.path = star.getPath().join(' ');
-          });
-        };
-      }
-    };
-  });
-
-},{"./star":1}]},{},[1,2]);
